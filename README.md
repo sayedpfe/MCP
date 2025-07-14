@@ -58,13 +58,18 @@ Welcome to your comprehensive learning journey with **Model Context Protocol (MC
 │   │   ├── 📄 index-starter.ts ← Starting template
 │   │   ├── 📄 index-complete.ts ← Finished example
 │   │   └── 📖 README.md ← Day overview
-│   └── 📁 day-2/ ← Multi-tool development
-│       ├── 📄 index-starter.ts ← Advanced template
-│       ├── 📄 index-complete.ts ← Finished example
+│   ├── 📁 day-2/ ← Multi-tool development
+│   │   ├── 📄 index-starter.ts ← Advanced template
+│   │   ├── 📄 index-complete.ts ← Finished example
+│   │   └── 📖 README.md ← Day overview
+│   └── 📁 day-3/ ← Resources and data management
+│       ├── 📄 index-starter.ts ← Resources template
+│       ├── 📄 index-complete.ts ← Full implementation
 │       └── 📖 README.md ← Day overview
 ├── 📁 exercises/ ← Step-by-step instructions
 │   ├── 📖 day-1-basics.md ← Complete Day 1 guide
-│   └── 📖 day-2-advanced-tools.md ← Complete Day 2 guide
+│   ├── 📖 day-2-advanced-tools.md ← Complete Day 2 guide
+│   └── 📖 day-3-resources.md ← Complete Day 3 guide
 ├── 📁 docs/ ← Additional learning resources
 ├── 📁 examples/ ← Code examples and templates
 ├── 📄 package.json ← Project configuration
@@ -117,6 +122,7 @@ npm start
    - Look at `days/day-1/` - this is your Day 1 lesson
    - Look at `exercises/day-1-basics.md` - this is your step-by-step guide
    - Notice `src/` is empty - you'll copy files here to work on them
+   - See `days/day-2/` and `days/day-3/` for upcoming lessons
 
 ### Minutes 10-20: Your First MCP Tool
 1. **Copy the starter file**:
@@ -168,6 +174,8 @@ Once connected, try these:
 - "Use the greeting tool to greet me formally as John"
 - "Use the calculator tool to multiply 15 by 8"
 - "Generate 3 random passwords with length 12"
+- "What resources are available?"
+- "Read the project information resource"
 
 ## 🎓 Learning Path (Your 7-Day Journey)
 
@@ -268,6 +276,8 @@ npm run build && npm start
 - Project documentation that updates automatically
 - Configuration files that tools can reference
 - Dynamic content generation based on user preferences
+- User progress tracking and analytics
+- **Bonus**: Resource analytics, configuration management, code examples library
 
 ### Day 4: Smart Prompts 🧠
 **Pre-written templates that make Claude more effective**

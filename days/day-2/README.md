@@ -107,9 +107,11 @@ By the end of Day 2, you should have:
 ## 🚀 What's Next?
 
 **Day 3** will introduce:
-- 📚 **Resources** - File-like data that tools can read
-- 🎯 **Prompts** - Pre-written templates for specific tasks
-- 🔗 **Integration** - Combining tools, resources, and prompts
+- � **Resources** - File-like data that Claude can read and reference
+- 🎯 **Dynamic Content** - Information that updates automatically  
+- 🔗 **Resource Management** - Organization and access patterns for data
+
+Learn to provide Claude with structured information it can use to better understand your project and needs!
 
 ---
 
