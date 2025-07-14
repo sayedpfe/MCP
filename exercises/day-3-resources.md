@@ -1,53 +1,270 @@
-# Day 3: Resources Mastery - Step by Step
+# Day 3: MCP Resources
 
-Today you'll learn to create both static and dynamic resources that Claude can read and reference during conversations.
+**Learn to create and manage MCP resources - file-like data that Claude can read and process!**
 
-## 🎯 Today's Goals
-- ✅ Create dynamic resources that change based on current data
-- ✅ Add static documentation resources
-- ✅ Test resource access patterns in Claude Desktop
+## 🎯 Today's Learning Goals
 
----
+By the end of Day 3, you'll understand:
+- ✅ What MCP resources are and how they work
+- ✅ How to create both static and dynamic resources
+- ✅ Resource listing and content reading
+- ✅ Best practices for resource organization
+- ✅ How Claude Desktop interacts with resources
 
-## 📚 Understanding Resources
+## 📖 What Are MCP Resources?
 
-**Resources** are like files that Claude can read during conversations. Unlike tools (which DO things), resources PROVIDE information.
+Think of resources as **file-like data** that Claude can read (but not modify). Unlike tools that perform actions, resources provide information:
 
-### Resource Types We'll Build:
-1. **Static Resources**: Fixed documentation or reference materials
-2. **Dynamic Resources**: Content that changes (current time, system status, etc.)
-3. **Parameterized Resources**: Resources that accept parameters
+- **📄 Documentation**: Help guides, API docs, project information
+- **⚙️ Configuration**: Settings, preferences, environment data  
+- **📊 Data**: Reports, analytics, status information
+- **📚 Content**: Templates, examples, reference materials
 
----
+## 🏗️ Resource Architecture
 
-## 🔧 Resource 1: System Status (Dynamic) (30 minutes)
-
-Let's create a resource that shows current system information.
-
-### Step 1A: Add to Resources List
-Find the `listResources` handler in `src/index.ts` and add:
-
-```typescript
-// Add this to your existing resources array
-{
-  uri: 'system://status',
-  name: 'System Status',
-  description: 'Current system information and server status',
-  mimeType: 'text/plain'
-},
-{
-  uri: 'system://performance',
-  name: 'Performance Metrics',
-  description: 'Real-time performance metrics',
-  mimeType: 'text/plain'
-}
+```
+Resource URI: "scheme://identifier"
+     ↓
+Resource Content: JSON, Markdown, Plain Text, etc.
+     ↓  
+Claude reads and processes the content
 ```
 
-### Step 1B: Create the Resource Handler
-Find the `readResource` handler and add these cases:
+**Examples:**
+- `project://info` → Project details as JSON
+- `docs://getting-started` → Markdown guide
+- `config://user-settings` → User preferences as JSON
+
+## 🚀 Getting Started
+
+### Step 1: Set Up Your Day 3 Environment
+
+```powershell
+# Copy the Day 3 starter template to your working file
+Copy-Item days/day-3/index-starter.ts src/index.ts
+
+# Build the project
+npm run build
+
+# Test the basic server (should start without errors)
+npm start
+# Press Ctrl+C to stop
+```
+
+### Step 2: Understanding the Starter Template
+
+Open `src/index.ts` and examine the structure:
 
 ```typescript
-case 'system://status':
+// 1. Server setup with resources capability
+const server = new Server(
+  { name: 'mcp-learning-server', version: '1.0.0' },
+  { capabilities: { resources: {}, tools: {} } }
+);
+
+// 2. TODO sections for your resources
+// TODO: Add your resources here!
+// TODO: Add your resource handler here!
+// TODO: Add your read resource handler here!
+```
+
+**Key Points:**
+- ✅ `capabilities: { resources: {} }` enables resource functionality
+- ✅ Two main handlers: `ListResourcesRequestSchema` and `ReadResourceRequestSchema`
+- ✅ Resources use URI schemes like `project://`, `config://`, `docs://`
+
+## 📝 Step-by-Step Implementation
+
+### Step 2A: Create Your First Resource (Project Info)
+
+Replace the first TODO comment with this code:
+
+```typescript
+// Resource 1: Project Documentation Resource
+// This will be a dynamic resource that provides project information
+const projectInfo = {
+  name: "MCP Learning Project",
+  version: "1.0.0",
+  description: "A comprehensive learning project for Model Context Protocol development",
+  currentDay: 3,
+  topic: "Resources",
+  features: [
+    "Step-by-step learning exercises",
+    "Day-by-day progression", 
+    "Hands-on tool building",
+    "Resource management",
+    "Claude Desktop integration"
+  ],
+  lastUpdated: new Date().toISOString()
+};
+```
+
+### Step 2B: Add the Resource List Handler
+
+Replace the second TODO with this handler:
+
+```typescript
+// List available resources
+server.setRequestHandler(ListResourcesRequestSchema, async () => {
+  return {
+    resources: [
+      {
+        uri: "project://info",
+        name: "Project Information", 
+        description: "General information about the MCP learning project",
+        mimeType: "application/json"
+      },
+      {
+        uri: "docs://getting-started",
+        name: "Getting Started Guide",
+        description: "Comprehensive guide to get started with MCP development", 
+        mimeType: "text/markdown"
+      }
+    ],
+  };
+});
+```
+
+**Understanding the Code:**
+- ✅ `uri`: Unique identifier for the resource
+- ✅ `name`: Human-readable name displayed in Claude
+- ✅ `description`: Explains what the resource contains
+- ✅ `mimeType`: Content type (JSON, Markdown, plain text, etc.)
+
+### Step 2C: Add the Resource Reader Handler
+
+Replace the third TODO with this handler:
+
+```typescript
+// Read resource content
+server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
+  const { uri } = request.params;
+  
+  switch (uri) {
+    case "project://info":
+      return {
+        contents: [
+          {
+            uri,
+            mimeType: "application/json",
+            text: JSON.stringify(projectInfo, null, 2)
+          }
+        ]
+      };
+    
+    case "docs://getting-started":
+      const gettingStartedGuide = `# MCP Getting Started Guide
+
+## What is Model Context Protocol (MCP)?
+
+MCP is a protocol that allows AI assistants like Claude to securely access external tools and data sources.
+
+## Key Concepts
+
+### Tools 🔧
+Functions that AI can call to perform actions.
+
+### Resources 📁  
+File-like data that AI can read (you're learning this now!).
+
+### Prompts 🧠
+Pre-written templates for specific tasks.
+
+## Your Progress So Far
+
+- ✅ Day 1: Built your first greeting tool
+- ✅ Day 2: Created advanced tools with validation
+- 🔄 Day 3: Learning resources (current)
+
+Keep up the great work! 🚀`;
+      
+      return {
+        contents: [
+          {
+            uri,
+            mimeType: "text/markdown",
+            text: gettingStartedGuide
+          }
+        ]
+      };
+    
+    default:
+      throw new McpError(
+        ErrorCode.InvalidRequest,
+        `Resource not found: ${uri}`
+      );
+  }
+});
+```
+
+**Understanding the Handler:**
+- ✅ Receives a `uri` parameter specifying which resource to read
+- ✅ Returns content with `uri`, `mimeType`, and `text` fields
+- ✅ Handles different resource types with different content formats
+- ✅ Throws proper errors for unknown resources
+
+### Step 3: Build and Test Your Resources
+
+```powershell
+# Build your changes
+npm run build
+
+# Start the server
+npm start
+```
+
+You should see "MCP Server running on stdio" without any errors.
+
+### Step 4: Test with Claude Desktop
+
+1. **Ensure Claude Desktop is configured** (from Day 1)
+2. **Restart Claude Desktop** to pick up your changes
+3. **Test your resources** with these prompts:
+
+**Test Prompts:**
+```
+"What resources are available?"
+
+"Read the project information resource"
+
+"Show me the getting started guide"
+
+"What's in the project://info resource?"
+```
+
+**Expected Results:**
+- ✅ Claude should list your two resources
+- ✅ Project info should show as formatted JSON
+- ✅ Getting started guide should display as formatted markdown
+- ✅ You should see the 📁 resources icon in Claude Desktop
+
+## 🎯 Understanding What You Built
+
+### Resource Flow Diagram
+```
+Claude Desktop Request
+     ↓
+1. List Resources → Shows available resources in UI
+     ↓
+2. User selects a resource 
+     ↓
+3. Read Resource → Returns actual content
+     ↓
+4. Claude processes and displays content
+```
+
+### Your Resource Architecture
+```
+project://info
+├── Contains: Dynamic project data
+├── Format: JSON
+└── Updates: Real-time information
+
+docs://getting-started  
+├── Contains: Static documentation
+├── Format: Markdown
+└── Purpose: User guidance
+```
   const uptime = process.uptime();
   const memory = process.memoryUsage();
   const platform = process.platform;
@@ -479,11 +696,203 @@ Day 4: Prompts! You'll create context-aware prompt templates that help Claude pe
 
 ---
 
-## 🎯 Bonus Challenges (Optional)
+## 🚀 Bonus Challenges (Optional Advanced Features)
 
-1. **Log Resource**: Create a resource that shows recent server activity
-2. **Help System**: Build an interactive help resource
-3. **Metrics Dashboard**: Create a real-time metrics resource
-4. **File Browser**: Resource to explore the project structure
+Ready to take your resources to the next level? Try these challenges:
 
-*Remember: Resources should provide valuable information that enhances Claude's ability to help users!*
+### Bonus Challenge 1: User Configuration Resource
+
+Add a resource that manages user preferences:
+
+```typescript
+// Add this to your resource data
+let userConfig = {
+  theme: 'light',
+  language: 'en', 
+  difficulty: 'beginner',
+  showHints: true
+};
+
+// Add to your resources list
+{
+  uri: "config://user-settings",
+  name: "User Configuration",
+  description: "User preferences and settings",
+  mimeType: "application/json"
+}
+
+// Add to your switch statement
+case "config://user-settings":
+  return {
+    contents: [
+      {
+        uri,
+        mimeType: "application/json",
+        text: JSON.stringify(userConfig, null, 2)
+      }
+    ]
+  };
+```
+
+### Bonus Challenge 2: Learning Progress Tracker
+
+Create a resource that tracks your learning journey:
+
+```typescript
+// Add progress tracking data
+const learningProgress = {
+  currentDay: 3,
+  completedDays: [1, 2],
+  totalDays: 7,
+  skillsLearned: [
+    "MCP server setup",
+    "Basic tool creation",
+    "Input validation", 
+    "Resource management"
+  ],
+  timeSpent: 180, // minutes
+  progressPercentage: Math.round((2/7) * 100)
+};
+```
+
+### Bonus Challenge 3: Code Examples Library
+
+Add a resource with reusable code examples:
+
+```typescript
+const codeExamples = {
+  "basic-tool": `server.setRequestHandler(CallToolRequestSchema, async (request) => {
+    // Tool implementation
+  });`,
+  "resource-handler": `server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
+    // Resource implementation  
+  });`,
+  "validation": `const schema = z.object({ name: z.string() });`
+};
+```
+
+### Bonus Challenge 4: Resource Analytics
+
+Track which resources are accessed most:
+
+```typescript
+let resourceAccessLog = [];
+
+function logResourceAccess(uri) {
+  resourceAccessLog.push({
+    uri,
+    timestamp: new Date(),
+    userAgent: 'Claude Desktop'
+  });
+}
+
+// Call in your read handler
+logResourceAccess(uri);
+```
+
+### Bonus Challenge 5: Dynamic Content Generation
+
+Create resources that generate content based on current state:
+
+```typescript
+// Dynamic status resource
+case "status://server":
+  const serverStatus = {
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    platform: process.platform,
+    nodeVersion: process.version,
+    timestamp: new Date().toISOString()
+  };
+  
+  return {
+    contents: [{
+      uri,
+      mimeType: "application/json", 
+      text: JSON.stringify(serverStatus, null, 2)
+    }]
+  };
+```
+
+## 🔍 Testing Your Bonus Features
+
+For each bonus challenge you implement:
+
+1. **Add the resource** to your `ListResourcesRequestSchema` handler
+2. **Add the URI case** to your `ReadResourceRequestSchema` handler  
+3. **Build and test**: `npm run build && npm start`
+4. **Test in Claude Desktop** with prompts like:
+   - "Show me my user configuration"
+   - "What's my learning progress?"
+   - "Give me some code examples"
+   - "Show resource analytics"
+
+## ❗ Common Issues & Solutions
+
+### ❌ "Resource not found" Error
+**Problem**: URI mismatch between list and read handlers
+**Solution**: Ensure exact URI matching in both handlers
+
+### ❌ "Invalid JSON" in Claude Desktop  
+**Problem**: Malformed JSON in resource content
+**Solution**: Use `JSON.stringify()` for all JSON responses
+
+### ❌ Resources not showing in Claude Desktop
+**Problem**: Server not restarted or configuration issue
+**Solution**: 
+1. Stop server (Ctrl+C)
+2. Build: `npm run build`
+3. Restart: `npm start`
+4. Restart Claude Desktop
+
+### ❌ Empty resource content
+**Problem**: Resource handler not returning content properly
+**Solution**: Verify the `contents` array structure:
+```typescript
+return {
+  contents: [
+    {
+      uri: request.params.uri,
+      mimeType: "application/json",
+      text: "your content here"
+    }
+  ]
+};
+```
+
+## 🎉 Day 3 Complete!
+
+**Congratulations!** You've successfully learned MCP resources! Here's what you accomplished:
+
+### ✅ Skills Mastered Today:
+- **Resource Architecture**: Understanding URI schemes and content types
+- **Dynamic Resources**: Creating resources with real-time data
+- **Static Resources**: Providing documentation and guides
+- **Resource Handlers**: Implementing list and read functionality
+- **Content Formats**: Working with JSON, Markdown, and plain text
+- **Error Handling**: Proper resource error management
+
+### 🎯 Key Concepts Learned:
+- **Resources vs Tools**: Resources provide data, tools perform actions
+- **URI Schemes**: Custom schemes like `project://`, `config://`, `docs://`
+- **Content Types**: JSON for data, Markdown for documentation
+- **Claude Integration**: How Claude Desktop displays and uses resources
+
+### 🚀 Ready for Day 4?
+Tomorrow you'll learn about **MCP Prompts** - pre-written templates that make Claude more effective at specific tasks!
+
+**Next Steps:**
+1. ✅ Experiment with the bonus challenges
+2. ✅ Try creating your own custom resources  
+3. ✅ Think about what kind of prompts might be useful
+4. ✅ Get ready for Day 4: Smart Prompts!
+
+## 💡 Pro Tips for Resources
+
+- **📁 Organize by purpose**: Use clear URI schemes (`docs://`, `config://`, `data://`)
+- **📊 Keep data fresh**: Update dynamic resources with current information
+- **📝 Document everything**: Include clear descriptions for each resource
+- **🔧 Test frequently**: Verify resources work in Claude Desktop
+- **📈 Monitor usage**: Track which resources are most valuable
+
+**Great job today!** You're building a solid foundation in MCP development. Resources are a powerful way to give Claude access to the information it needs to help you more effectively! 🎉
