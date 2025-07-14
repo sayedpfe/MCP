@@ -12,45 +12,35 @@ node --version
 # Check npm version  
 npm --version
 
-# Verify TypeScript compilation works
+# Your project structure should look like:
+# src/ (empty - you'll copy files here)
+# days/ (contains your day-by-day starter files)
+# exercises/ (contains step-by-step instructions)
+```
+
+### 2. Start Day 1
+```bash
+# Copy Day 1 starter file to begin
+cp days/day-1/index-starter.ts src/index.ts
+
+# Build your first server
 npm run build
-```
 
-### 2. Test the Basic Server
-There are several ways to test your MCP server:
-
-#### Option A: Basic Startup Test
-```bash
-# Start the MCP server
+# Test it works
 npm start
-
-# You should see:
-# mcp-learning-server v1.0.0 running on stdio
-# Available capabilities:
-# - Tools: calculate, text-utils
-# - Resources: learning-guide://mcp-basics
-# - Prompts: code-review
 ```
 
-#### Option B: Automated Test Suite
+### 3. Verify Your Clean Setup
 ```bash
-# Run the automated test suite
-npm test
+# Should show empty src folder
+ls src/
 
-# This will test all tools, resources, and prompts automatically
+# Should show day-by-day structure
+ls days/
+
+# Should show step-by-step exercises
+ls exercises/
 ```
-
-#### Option C: Manual Testing with Claude Desktop
-1. Configure Claude Desktop (see section below)
-2. Try these commands in Claude:
-   - "Calculate 15 plus 27"
-   - "Convert 'hello world' to uppercase"
-
-### 3. Verify Server Health
-If the server starts successfully, you should see:
-- ✅ Server version and startup message
-- ✅ List of available capabilities
-- ✅ No error messages in the console
 
 ## 🎯 Your First 30 Minutes
 
@@ -166,13 +156,18 @@ npm run build && npm test
 
 ## 📚 Key Files to Know
 
-| File | Purpose | When to Edit |
-|------|---------|--------------|
-| `src/index.ts` | Main server code | Adding tools/resources/prompts |
+> 🎯 **New to MCP?** Read `docs/learning-journey-guide.md` first to understand how all these files work together!
+
+| File/Folder | Purpose | When to Use |
+|-------------|---------|-------------|
+| `days/day-X/` | **Day-by-day files** | Copy starter files, reference complete solutions |
+| `src/index.ts` | **Your working file** | Edit this TypeScript file daily |
+| `build/index.js` | **Compiled output** | Generated automatically, Node.js runs this |
+| `exercises/day-X-[topic].md` | **Step-by-step learning** | Daily hands-on practice |
+| `docs/best-practices.md` | **Professional reference** | Understanding WHY & production patterns |
+| `docs/typescript-javascript-guide.md` | **TypeScript vs JavaScript** | Understanding the build process |
+| `docs/learning-journey-guide.md` | **How everything fits together** | When confused about what to use when |
 | `package.json` | Project config | Adding dependencies |
-| `tsconfig.json` | TypeScript config | Compilation issues |
-| `.vscode/mcp.json` | VS Code MCP config | Testing in VS Code |
-| `README.md` | Project documentation | Documenting changes |
 
 ## 🔗 Quick Reference Links
 

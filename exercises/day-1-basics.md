@@ -34,75 +34,115 @@ Before moving on, answer these:
 
 **Goal**: Create a tool that takes a name and returns a personalized greeting.
 
-### Step 2A: Add the Tool Schema
-1. Open `src/index.ts`
-2. Find the existing tools section (around line 30)
-3. Add this tool definition after the existing tools:
+### Step 2A: Start with a Completely Clean Slate
+1. **Copy the Day 1 starter file to create your working file**:
+   ```bash
+   cp days/day-1/index-starter.ts src/index.ts
+   ```
+   
+2. **Verify your src folder now has the starter file**:
+   ```bash
+   ls src/
+   # Should show: index.ts
+   ```
+   
+3. **Open your new working file**:
+   ```bash
+   code src/index.ts
+   ```
+   
+4. **You should see a clean, minimal server with**:
+   - Basic imports
+   - Server configuration  
+   - Empty server instance
+   - TODO comment where you'll add your tool
+   - No existing tools or complexity!
+
+### Step 2B: Add Your First Tool
+1. Find the comment `// TODO: Add your first tool here (Day 1 exercise)`
+2. Replace it with this complete tool:
 
 ```typescript
-// Add this after the text-utils tool
-{
-  name: 'greeting',
-  description: 'Create personalized greetings',
-  inputSchema: {
-    type: 'object',
-    properties: {
-      name: {
-        type: 'string',
-        description: 'Name of the person to greet'
-      },
-      style: {
-        type: 'string',
-        enum: ['formal', 'casual', 'enthusiastic'],
-        description: 'Style of greeting'
-      }
-    },
-    required: ['name']
+// Your first tool: Greeting
+server.tool(
+  "greeting",
+  "Create personalized greetings",
+  {
+    name: z.string().describe("Name of the person to greet"),
+    style: z.enum(["formal", "casual", "enthusiastic"]).optional().describe("Style of greeting"),
+  },
+  async ({ name, style = "casual" }) => {
+    let greeting;
+    
+    switch (style) {
+      case "formal":
+        greeting = `Good day, ${name}. I hope you're having a pleasant experience.`;
+        break;
+      case "enthusiastic":
+        greeting = `HEY THERE ${name.toUpperCase()}! 🎉 You're AWESOME!`;
+        break;
+      default: // casual
+        greeting = `Hey ${name}! Nice to meet you! 👋`;
+    }
+    
+    return {
+      content: [{
+        type: "text",
+        text: greeting
+      }]
+    };
   }
-}
+);
 ```
 
-### Step 2B: Add the Tool Handler
-1. Find the tool handling section (around line 80)
-2. Add this case to the switch statement:
+### Step 2C: Update the Server Capabilities Log
+1. Find this line in the `main()` function:
+   ```typescript
+   console.error("- Tools: (none yet - add your first tool!)");
+   ```
+2. Replace it with:
+   ```typescript
+   console.error("- Tools: greeting");
+   ```
 
-```typescript
-case 'greeting':
-  const greetingArgs = args as { name: string; style?: string };
-  const style = greetingArgs.style || 'casual';
-  
-  let greeting;
-  switch (style) {
-    case 'formal':
-      greeting = `Good day, ${greetingArgs.name}. I hope you're having a pleasant experience.`;
-      break;
-    case 'enthusiastic':
-      greeting = `HEY THERE ${greetingArgs.name.toUpperCase()}! 🎉 You're AWESOME!`;
-      break;
-    default: // casual
-      greeting = `Hey ${greetingArgs.name}! Nice to meet you! 👋`;
-  }
-  
-  return {
-    content: [{
-      type: 'text',
-      text: greeting
-    }]
-  };
-```
-
-### Step 2C: Test Your Tool
-1. Build your changes:
+### Step 2D: Test Your Tool
+1. **Build your TypeScript code** (converts `.ts` to `.js` and creates build folder):
    ```bash
    npm run build
    ```
+   You should see the TypeScript compiler create a `build/` folder with `index.js`.
 
-2. Test with the interactive test:
+2. **Test that the server starts**:
+   ```bash
+   npm start
+   ```
+   You should see:
+   ```
+   mcp-learning-server v1.0.0 running on stdio
+   Available capabilities:
+   - Tools: greeting
+   - Resources: (none yet)
+   - Prompts: (none yet)
+   ```
+
+3. **Stop the server** (Ctrl+C) and test with the interactive test:
    ```bash
    node interactive-test.js
    ```
 
-3. **Verify**: You should see "greeting" in the list of available tools!
+4. **Verify**: You should see "greeting" in the list of available tools!
+
+### 💡 Understanding TypeScript → JavaScript
+- **You edit**: `src/index.ts` (TypeScript - human readable)
+- **npm run build creates**: `build/index.js` (JavaScript - Node.js runs this)
+- **Never edit**: `.js` files directly (they get overwritten!)
+- **First build**: Creates the `build/` folder automatically
+
+### 🆘 If You Get Stuck
+Compare your code with the complete version:
+```bash
+code days/day-1/index-complete.ts
+```
 
 ---
 
@@ -145,7 +185,7 @@ case 'greeting':
 ### Checklist
 - [ ] Greeting tool appears in Claude Desktop
 - [ ] Can call the tool with different names and styles
-- [ ] Interactive test shows 3 tools (calculate, text-utils, greeting)
+- [ ] Interactive test shows 1 tool (greeting)
 - [ ] No error messages in console
 
 ### Test Commands in Claude Desktop

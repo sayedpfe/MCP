@@ -1,5 +1,19 @@
 # MCP Best Practices and Patterns
 
+> 📚 **How to Use This Guide**: This is your **reference manual** that complements the hands-on exercises. 
+> 
+> **Relationship to Exercises**:
+> - **Day 1-2 Exercises** → Use "Server Architecture" and "Input Validation" sections
+> - **Day 3 Exercises** → Reference "Resource Management" patterns
+> - **Day 4 Exercises** → Study "Prompt Engineering" examples  
+> - **Day 5-7 Exercises** → Apply "Security", "Performance", and "Testing" practices
+>
+> **When to Read This**:
+> - 🔍 **During exercises**: When you need to understand WHY something works
+> - 🚀 **After exercises**: To learn professional patterns for production use
+> - 🐛 **When debugging**: To find solutions to common problems
+> - 📈 **For real projects**: To build production-ready MCP servers
+
 This document outlines best practices for developing MCP servers and integrating them effectively.
 
 ## 🏗️ Server Architecture

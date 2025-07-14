@@ -21,8 +21,36 @@ const server = new McpServer({
   },
 });
 
-// TODO: Add your first tool here (Day 1 exercise)
-// Follow the instructions in exercises/day-1-basics.md
+// ✅ Day 1 Complete: Your first tool - Greeting
+server.tool(
+  "greeting",
+  "Create personalized greetings",
+  {
+    name: z.string().describe("Name of the person to greet"),
+    style: z.enum(["formal", "casual", "enthusiastic"]).optional().describe("Style of greeting"),
+  },
+  async ({ name, style = "casual" }) => {
+    let greeting;
+    
+    switch (style) {
+      case "formal":
+        greeting = `Good day, ${name}. I hope you're having a pleasant experience.`;
+        break;
+      case "enthusiastic":
+        greeting = `HEY THERE ${name.toUpperCase()}! 🎉 You're AWESOME!`;
+        break;
+      default: // casual
+        greeting = `Hey ${name}! Nice to meet you! 👋`;
+    }
+    
+    return {
+      content: [{
+        type: "text",
+        text: greeting
+      }]
+    };
+  }
+);
 
 // Main function to start the server
 async function main() {
@@ -32,7 +60,7 @@ async function main() {
   // Log server start (to stderr so it doesn't interfere with stdio transport)
   console.error(`${SERVER_INFO.name} v${SERVER_INFO.version} running on stdio`);
   console.error("Available capabilities:");
-  console.error("- Tools: (none yet - add your first tool!)");
+  console.error("- Tools: greeting");
   console.error("- Resources: (none yet)");
   console.error("- Prompts: (none yet)");
 }
