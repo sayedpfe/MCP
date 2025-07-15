@@ -62,14 +62,19 @@ Welcome to your comprehensive learning journey with **Model Context Protocol (MC
 │   │   ├── 📄 index-starter.ts ← Advanced template
 │   │   ├── 📄 index-complete.ts ← Finished example
 │   │   └── 📖 README.md ← Day overview
-│   └── 📁 day-3/ ← Resources and data management
-│       ├── 📄 index-starter.ts ← Resources template
+│   ├── 📁 day-3/ ← Resources and data management
+│   │   ├── 📄 index-starter.ts ← Resources template
+│   │   ├── 📄 index-complete.ts ← Full implementation
+│   │   └── 📖 README.md ← Day overview
+│   └── 📁 day-4/ ← Smart prompts and templates
+│       ├── 📄 index-starter.ts ← Prompts template
 │       ├── 📄 index-complete.ts ← Full implementation
 │       └── 📖 README.md ← Day overview
 ├── 📁 exercises/ ← Step-by-step instructions
 │   ├── 📖 day-1-basics.md ← Complete Day 1 guide
 │   ├── 📖 day-2-advanced-tools.md ← Complete Day 2 guide
-│   └── 📖 day-3-resources.md ← Complete Day 3 guide
+│   ├── 📖 day-3-resources.md ← Complete Day 3 guide
+│   └── 📖 day-4-prompts.md ← Complete Day 4 guide
 ├── 📁 docs/ ← Additional learning resources
 ├── 📁 examples/ ← Code examples and templates
 ├── 📄 package.json ← Project configuration
@@ -122,7 +127,7 @@ npm start
    - Look at `days/day-1/` - this is your Day 1 lesson
    - Look at `exercises/day-1-basics.md` - this is your step-by-step guide
    - Notice `src/` is empty - you'll copy files here to work on them
-   - See `days/day-2/` and `days/day-3/` for upcoming lessons
+   - See `days/day-2/`, `days/day-3/`, and `days/day-4/` for upcoming lessons
 
 ### Minutes 10-20: Your First MCP Tool
 1. **Copy the starter file**:
@@ -176,6 +181,8 @@ Once connected, try these:
 - "Generate 3 random passwords with length 12"
 - "What resources are available?"
 - "Read the project information resource"
+- "Use the code-review prompt for TypeScript code focusing on performance"
+- "Generate a writing-helper prompt for professional email to executives"
 
 ## 🎓 Learning Path (Your 7-Day Journey)
 
@@ -205,10 +212,13 @@ Once connected, try these:
 
 **What You'll Learn**: Resource architecture, URI schemes, content types, Claude integration
 
-### Day 4: Prompts (Coming Soon)
-- [ ] **Create context-aware prompts** - Smart prompt templates
-- [ ] **Test prompt generation** - Interactive prompt testing
-- [ ] **Experiment with formats** - Different prompt patterns
+### Day 4: Prompts ⭐
+- [ ] **Follow** `exercises/day-4-prompts.md` for complete guide
+- [ ] **Create 5 smart prompt templates** - Code review, writing helper, meeting summary, learning tutor, project planner
+- [ ] **Master dynamic content generation** - Context-aware prompt customization
+- [ ] **Implement management tools** - Prompt organization and preview systems
+
+**What You'll Learn**: Prompt architecture, template design, context-aware assistance, structured AI frameworks
 
 ### Day 5: Integration (Coming Soon)
 - [ ] **Connect to external APIs** - Real-world data integration
@@ -281,9 +291,12 @@ npm run build && npm start
 
 ### Day 4: Smart Prompts 🧠
 **Pre-written templates that make Claude more effective**
-- Context-aware writing assistance
-- Code review templates
-- Meeting summary formats
+- Code review frameworks with language-specific analysis
+- Context-aware writing assistance for different audiences
+- Meeting summary templates for various meeting types
+- Adaptive learning prompts based on skill level and style
+- Project planning frameworks for different contexts
+- **Bonus**: Template systems, prompt history, smart suggestions
 
 ### Day 5: API Integration 🌐
 **Connect to real-world data sources**
